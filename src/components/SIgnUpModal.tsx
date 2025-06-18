@@ -42,9 +42,9 @@ export const SignupModal: FC<SignupModalProps> = ({ onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 overflow-auto">
-      <div className="bg-yellow-300 text-black w-full max-w-xl p-6 rounded-md shadow-lg relative">
+      <div className="bg-blue-950 text-black w-full max-w-xl p-6 rounded-md shadow-lg relative">
         <button onClick={onClose} className="absolute right-4 top-4 text-xl">×</button>
-        <h2 className="text-2xl font-bold mb-6 text-center text-blue-600">Sign Up</h2>
+        <h2 className="text-2xl font-bold mb-6 text-center text-white">Sign Up</h2>
         <form
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
           onSubmit={handleSubmit}
@@ -73,7 +73,7 @@ export const SignupModal: FC<SignupModalProps> = ({ onClose }) => {
           </select> 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded col-span-full hover:bg-gray-900"
+            className="w-full bg-black text-white py-2 rounded col-span-full hover:bg-gray-900"
           >
             Sign Up
           </button>
@@ -82,4 +82,4 @@ export const SignupModal: FC<SignupModalProps> = ({ onClose }) => {
     </div>
   );
 };
- 
+    
