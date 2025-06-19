@@ -15,9 +15,14 @@ function LandingPage() {
 
   return (
     <>
-      {" "}
       {modal === "login" && <LoginModal onClose={() => setModal(null)} />}
-      {modal === "signup" && <SignupModal onClose={() => setModal(null)} />}
+      {modal === "signup" && (
+        <SignupModal
+          onClose={() => setModal(null)}
+          onSignupSuccess={() => setModal("login")}
+        />
+      )}
+
       <div className="flex flex-col">
         <section>
           <Header
@@ -38,7 +43,6 @@ function LandingPage() {
           {" "}
           <Features />{" "}
         </section>
-      
 
         <section id="trading">
           {" "}
@@ -49,10 +53,10 @@ function LandingPage() {
           {" "}
           <Testimonials />{" "}
         </section>
-          <section id="cta">
+        <section id="cta">
           {" "}
           <CtaSection onSignup={() => console.log("Signup modal open")} />{" "}
-        </section> 
+        </section>
         <section>
           {" "}
           <Footer />{" "}

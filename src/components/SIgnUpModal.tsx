@@ -1,14 +1,17 @@
 import type { FC } from "react";
-import type { FormEvent, ChangeEvent } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
 import axios from "axios";
+import type { ChangeEvent, FormEvent } from "react";
+import { useState, useEffect } from "react";
 
 interface SignupModalProps {
   onClose: () => void;
+  onSignupSuccess: () => void;
 }
 
-export const SignupModal: FC<SignupModalProps> = ({ onClose }) => {
+export const SignupModal: FC<SignupModalProps> = ({
+  onClose,
+  onSignupSuccess,
+}) => {
   const [countries, setCountries] = useState<any[]>([]);
   const [dialCodes, setDialCodes] = useState<any[]>([]);
   const [error, setError] = useState("");
@@ -34,9 +37,8 @@ export const SignupModal: FC<SignupModalProps> = ({ onClose }) => {
       .then(setDialCodes);
   }, []);
 
-  const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => setForm({ ...form, [e.target.name]: e.target.value });
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
 
   const isValidEmail = (email: string) =>
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -58,15 +60,12 @@ export const SignupModal: FC<SignupModalProps> = ({ onClose }) => {
       return;
     }
     if (!isStrongPassword(form.password)) {
-      setError(
-        "Password must be 8+ chars, include number & special char"
-      );
+      setError("Password must be 8+ chars, include number & special char");
       return;
     }
-    const isoDOB =
-      form.birthdate
-        ? new Date(form.birthdate).toISOString().split("T")[0]
-        : null;
+    const isoDOB = form.birthdate
+      ? new Date(form.birthdate).toISOString().split("T")[0]
+      : null;
     try {
       await axios.post(
         "https://api.salesvault.vc/identity/api/clients/create-client-via-web",
@@ -86,7 +85,8 @@ export const SignupModal: FC<SignupModalProps> = ({ onClose }) => {
               : window.location.hostname,
         }
       );
-      onClose();
+      onClose(); // hide signup
+      onSignupSuccess(); // show login
     } catch (err: any) {
       setError(err.response?.data?.message || "Signup failed.");
     }
@@ -184,9 +184,7 @@ export const SignupModal: FC<SignupModalProps> = ({ onClose }) => {
             ))}
           </select>
           {error && (
-            <div className="text-red-500 text-sm col-span-full">
-              {error}
-            </div>
+            <div className="text-red-500 text-sm col-span-full">{error}</div>
           )}
           <button
             type="submit"
@@ -199,4 +197,3 @@ export const SignupModal: FC<SignupModalProps> = ({ onClose }) => {
     </div>
   );
 };
-  
